@@ -7,9 +7,11 @@
 
 **简体中文** · [English](README.en.md)　|　[下载首个 skill](https://github.com/DocJlm/claude-video-skills/releases/download/v0.1.0/ascii-ember-mv-v0.1.0.zip)
 
-[![《成为谁》：字符星火 MV](media/becoming/03-tunnel.jpg)](https://github.com/DocJlm/claude-video-skills/blob/main/media/becoming/becoming-preview.mp4)
+[![《成为谁》：字符星火 MV](media/becoming/03-tunnel.jpg)](https://github.com/DocJlm/claude-video-skills/releases/tag/v0.1.0)
 
-**[▶ 播放《成为谁》20 秒副歌预览](https://github.com/DocJlm/claude-video-skills/blob/main/media/becoming/becoming-preview.mp4)** · 720p / MP4 / 含声音
+**[▶ 播放《成为谁》20 秒副歌预览](https://github.com/DocJlm/claude-video-skills/releases/tag/v0.1.0)** · 720p / MP4 / 含声音
+
+https://github.com/user-attachments/assets/419f0eaa-f36e-4587-91b8-fa8460cad893
 
 ## 先看效果：《成为谁》
 

@@ -8,9 +8,11 @@ visual styles and video types will follow.
 
 [简体中文](README.md) · **English**　|　[Download the first skill](https://github.com/DocJlm/claude-video-skills/releases/download/v0.1.0/ascii-ember-mv-v0.1.0.zip)
 
-[![Becoming — ASCII Ember MV](media/becoming/03-tunnel.jpg)](https://github.com/DocJlm/claude-video-skills/blob/main/media/becoming/becoming-preview.mp4)
+[![Becoming — ASCII Ember MV](media/becoming/03-tunnel.jpg)](https://github.com/DocJlm/claude-video-skills/releases/tag/v0.1.0)
 
-**[▶ Watch the 20-second chorus preview](https://github.com/DocJlm/claude-video-skills/blob/main/media/becoming/becoming-preview.mp4)** · 720p / MP4 / sound on
+**[▶ Watch the 20-second chorus preview](https://github.com/DocJlm/claude-video-skills/releases/tag/v0.1.0)** · 720p / MP4 / sound on
+
+https://github.com/user-attachments/assets/419f0eaa-f36e-4587-91b8-fa8460cad893
 
 ## Featured work: Becoming /《成为谁》
 
