@@ -1,0 +1,16 @@
+.DS_Store
+.AppleDouble
+__MACOSX/
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.env.*
+!.env.example
+*.log
+playwright-report/
+test-results/
+projects/
+work/
+*.zip

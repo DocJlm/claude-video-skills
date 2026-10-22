@@ -1,0 +1,1 @@
+LAYOUT: one 16:9 image divided into a 2x2 grid of FOUR equal panels (quadrants, read left-to-right, top-to-bottom), NO borders, NO gutters, NO numbers; the camera angle, framing and background are IDENTICAL in all four panels, only the action changes, like consecutive animation keyframes.

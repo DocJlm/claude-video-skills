@@ -1,0 +1,280 @@
+{
+  "title": "不系舟",
+  "range": [
+    "bar:45",
+    "bar:57"
+  ],
+  "palette": {
+    "base": "ice",
+    "bg": "#04070c",
+    "ink": "#dce6ef",
+    "mid": "#93a3b5",
+    "dim": "#3a4757",
+    "accent": "#ffb35c",
+    "accentHi": "#ffe3b8",
+    "brand": "#ffd98a"
+  },
+  "lyricFont": "kai",
+  "accents": [
+    "一点光",
+    "渔火",
+    "不回头",
+    "孤篷",
+    "寒江",
+    "燃"
+  ],
+  "logWords": [
+    "雪",
+    "江",
+    "舟",
+    "渔火",
+    "夜",
+    "风",
+    "浪"
+  ],
+  "hud": {
+    "prompt": "~/寒江 $",
+    "bl": "渔火 × 1"
+  },
+  "converge": true,
+  "assets": {
+    "boat_row": {
+      "sheet": "assets/frames/boat_row.png"
+    },
+    "boat_wide": {
+      "sheet": "assets/frames/boat_wide.png"
+    },
+    "ember_palm": {
+      "sheet": "assets/frames/ember_palm.png"
+    },
+    "light": {
+      "text": "光"
+    },
+    "zhou": {
+      "text": "舟"
+    }
+  },
+  "shots": [
+    {
+      "id": "storm",
+      "type": "figure",
+      "t0": "bar:45",
+      "t1": "lyric:既无岸~-0.15",
+      "asset": "boat_row",
+      "frames": "beat",
+      "zoom": [
+        1.0,
+        1.1
+      ],
+      "lyric": "right",
+      "cmd": "./row --into storm",
+      "sec": "BRIDGE",
+      "tag": "风雪 / STORM"
+    },
+    {
+      "id": "noshore",
+      "type": "hold",
+      "t0": "lyric:既无岸~-0.15",
+      "t1": "lyric:便将此身",
+      "asset": "boat_wide",
+      "frame": 0,
+      "char": "岸",
+      "noScr": true,
+      "hud": false,
+      "offbeat": true
+    },
+    {
+      "id": "palm",
+      "type": "figure",
+      "t0": "lyric:便将此身",
+      "t1": "lyric:便将此身#4",
+      "asset": "ember_palm",
+      "frames": [
+        "lyric:便将此身#1",
+        "lyric:便将此身#2",
+        "lyric:便将此身#3"
+      ],
+      "zoom": [
+        1.0,
+        1.15
+      ],
+      "lyric": "top",
+      "offbeat": true,
+      "cmd": "./ignite",
+      "sec": "BRIDGE",
+      "tag": "此身 / SELF"
+    },
+    {
+      "id": "burn",
+      "type": "burst",
+      "t0": "lyric:便将此身#4",
+      "t1": "lyric:便将此身#4~1.0",
+      "asset": "ember_palm",
+      "frame": 3,
+      "text": "燃",
+      "flash": true,
+      "noScr": true,
+      "hud": false,
+      "lyric": false,
+      "offbeat": true
+    },
+    {
+      "id": "onelight",
+      "type": "converge",
+      "t0": "lyric:便将此身#4~1.0",
+      "t1": "lyric:待来年春水涨",
+      "target": "light",
+      "from": "scatter",
+      "at": "lyric:便将此身#10",
+      "size": 9,
+      "lookY": -0.6,
+      "lookYV": -1.2,
+      "lyric": "low",
+      "noScr": true,
+      "offbeat": true,
+      "cmd": "./burn --as light",
+      "sec": "BRIDGE",
+      "tag": "一点光 / ONE LIGHT"
+    },
+    {
+      "id": "spring",
+      "type": "figure",
+      "t0": "lyric:待来年春水涨",
+      "t1": "lyric:来时一叶孤篷",
+      "asset": "boat_wide",
+      "frames": [
+        "lyric:待来年春水涨#7"
+      ],
+      "seq": [
+        0,
+        1
+      ],
+      "zoom": [
+        1.15,
+        1.0
+      ],
+      "lyric": "top",
+      "offbeat": true,
+      "cmd": "./drift",
+      "sec": "VERSE 3",
+      "tag": "春水 / SPRING"
+    },
+    {
+      "id": "mist",
+      "type": "wordWave",
+      "t0": "lyric:来时一叶孤篷",
+      "t1": "lyric:回首处",
+      "words": [
+        "寒江",
+        "孤篷",
+        "烟波",
+        "万里",
+        "苍茫",
+        "风雪",
+        "渔火",
+        "明月",
+        "星河",
+        "南山",
+        "霜天",
+        "归舟"
+      ],
+      "lyric": "mid",
+      "offbeat": true,
+      "cmd": "grep -r 烟波 .",
+      "sec": "VERSE 3",
+      "tag": "烟波 / MIST"
+    },
+    {
+      "id": "lanterns",
+      "type": "figure",
+      "t0": "lyric:回首处",
+      "t1": "bar:54",
+      "asset": "boat_wide",
+      "frames": [
+        "lyric:回首处#3",
+        "lyric:回首处#7"
+      ],
+      "seq": [
+        1,
+        2,
+        3
+      ],
+      "zoom": [
+        1.0,
+        1.12
+      ],
+      "rise": "lyric:回首处#7",
+      "lyric": "top",
+      "offbeat": true,
+      "cmd": "./follow --lights",
+      "sec": "VERSE 3",
+      "bl": "渔火 × 1,000",
+      "tag": "渔火 / LANTERNS"
+    },
+    {
+      "id": "boatchar",
+      "type": "converge",
+      "t0": "bar:54",
+      "t1": "bar:55",
+      "target": "zhou",
+      "from": "tube",
+      "at": "bar:55~-0.6",
+      "size": 9,
+      "lookY": -0.6,
+      "lookYV": -1.2,
+      "lyric": false,
+      "cmd": "./sail",
+      "sec": "INTERLUDE",
+      "tag": "舟 / BOAT"
+    },
+    {
+      "id": "gone",
+      "type": "tunnel",
+      "t0": "bar:55",
+      "t1": "bar:57",
+      "speed": 12,
+      "roll": 0.35,
+      "flash": true,
+      "lyric": {
+        "pos": "mid",
+        "from": 177
+      },
+      "cmd": "./go --no-return",
+      "sec": "FINAL",
+      "tag": "不回头 / NO RETURN"
+    },
+    {
+      "id": "thanks",
+      "type": "credits",
+      "t0": "end",
+      "t1": "end~6",
+      "lines": [
+        [
+          "title",
+          "鸣谢"
+        ],
+        [
+          "role",
+          "// 作词作曲"
+        ],
+        [
+          "name",
+          "不系舟 · Suno"
+        ],
+        [
+          "role",
+          "// 画面"
+        ],
+        [
+          "name",
+          "ascii-ember-mv",
+          "（字符星火风格）"
+        ]
+      ],
+      "schedule": "analysis/credits_thanks.json",
+      "hud": {
+        "tl": "~/寒江 $ cat CREDITS"
+      }
+    }
+  ]
+}
