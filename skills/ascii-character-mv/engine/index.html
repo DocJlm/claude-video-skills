@@ -1,0 +1,59 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>ascii-character-mv</title>
+<style>
+@font-face{font-family:JBMono;src:url(/engine/fonts/JBMono-500.woff);font-weight:500}
+@font-face{font-family:JBMono;src:url(/engine/fonts/JBMono-700.woff);font-weight:700}
+@font-face{font-family:NSC;src:url(/engine/fonts/NotoSansSC-900.woff);font-weight:900}
+@font-face{font-family:NSC;src:url(/engine/fonts/NotoSansSC-500.woff);font-weight:500}
+@font-face{font-family:KAI;src:url(/engine/fonts/LXGWWenKai-500.woff);font-weight:500}
+html,body{margin:0;background:#000;overflow:hidden} canvas{display:block}
+</style></head><body><canvas id="c"></canvas>
+<script type="module">
+import { S, PAL, T, layout, loadProject, kickEnv, snareHit, hud, clamp, hash } from '/engine/core.js';
+import { TYPES, HOT, loadAssets } from '/engine/shots.js';
+import { initGL } from '/engine/particles.js';
+
+const q = new URLSearchParams(location.search);
+const W = +(q.get('w') || 1920), H = +(q.get('h') || 1080), FPS = +(q.get('fps') || 30);
+const cv = document.getElementById('c'); cv.width = W; cv.height = H; const ctx = cv.getContext('2d');
+const B = document.createElement('canvas'); B.width = W; B.height = H; const bx = B.getContext('2d');
+const ERR = []; window.addEventListener('error', e => ERR.push(e.message));
+for (const f of ['500 20px JBMono', '700 20px JBMono', '900 20px NSC', '500 20px NSC', '500 20px KAI']) await document.fonts.load(f, '字符人物AI');
+layout(W, H); await loadProject(); await loadAssets(); initGL(W, H);
+
+// 镜头表：解析语义时间；鸣谢页只保留 ?credits=<id> 指定的那一个（缺省第一个）
+const want = q.get('credits');
+let raw = (S.sb.shots || []).filter(s => s.type !== 'credits' || (want ? s.id === want : true));
+if (!want) { const c = raw.filter(s => s.type === 'credits'); raw = raw.filter(s => s.type !== 'credits' || s === c[0]); }
+const SHOTS = raw.map((s, i) => ({ ...s, id: s.id || 'shot' + i, t0: T(s.t0), t1: T(s.t1), hot: s.hot ?? HOT[s.type] ?? .5 }));
+SHOTS.sort((a, b) => a.t0 - b.t0);
+for (const s of SHOTS) if (!TYPES[s.type]) ERR.push(`镜头 ${s.id}：没有这种类型 ${s.type}`);
+const cred = SHOTS.find(s => s.type === 'credits');
+if (cred && cred.schedule) { S.credits = await fetch('/p/' + cred.schedule).then(r => r.json()).catch(() => null); if (S.credits) cred.t1 = cred.t0 + S.credits.dur; }
+const shotAt = t => { let s = SHOTS[0]; for (const x of SHOTS) if (t >= x.t0) s = x; return s; };
+window.DUR = Math.max(...SHOTS.filter(s => s.type !== 'credits').map(s => s.t1));
+window.DUR_CREDITS = cred ? cred.t1 : window.DUR;
+
+const defHud = sh => { if (sh.hud === false || S.sb.hud === false) return null; const h = S.sb.hud || {};
+  return { tl: `${h.prompt || '~/ $'} ${sh.cmd || ''}`.trim(), tr: sh.sec || '', bl: sh.bl ?? h.bl ?? '', br: sh.tag ? `[ ${sh.tag} ]` : '', ...(sh.hud || {}) }; };
+
+function frame(t) {
+  const sh = shotAt(t), lt = t - sh.t0, k = clamp(lt / (sh.t1 - sh.t0));
+  S.scr = 0; if (!sh.noScr) { const prev = shotAt(sh.t0 - .001), nxt = shotAt(sh.t1 + .001);   // 字符打散转场
+    if (sh.t1 - t < .1 && nxt !== sh && !nxt.noScr && !nxt.flash) S.scr = 1 - (sh.t1 - t) / .1;
+    if (lt < .13 && prev !== sh && !prev.noScr && !sh.flash && sh.t0 > 0) S.scr = Math.max(S.scr, 1 - lt / .13); }
+  bx.setTransform(1, 0, 0, 1, 0, 0); bx.globalAlpha = 1; bx.globalCompositeOperation = 'source-over'; bx.fillStyle = PAL.bg; bx.fillRect(0, 0, W, H);
+  try { TYPES[sh.type](bx, t, lt, k, sh); } catch (e) { ERR.push(`${sh.id}@${t.toFixed(2)}: ${e.message}`); }
+  const e = kickEnv(t, sh.hot), sc = 1 + .028 * e, fi = Math.floor(t * FPS);   // 底鼓冲击 + 镜头抖动
+  const shx = (hash(fi, 1) - .5) * 14 * e * W / 1920, shy = (hash(fi, 2) - .5) * 14 * e * W / 1920;
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = PAL.bg; ctx.fillRect(0, 0, W, H);
+  ctx.setTransform(sc, 0, 0, sc, W / 2 * (1 - sc) + shx, H / 2 * (1 - sc) + shy); ctx.drawImage(B, 0, 0); ctx.setTransform(1, 0, 0, 1, 0, 0);
+  const h = defHud(sh); if (h) hud(ctx, h);
+  const fl = sh.flash ? Math.max(0, 1 - lt * FPS / 3) : 0;   // 入场闪白（3 帧衰减）
+  if (fl > 0) { ctx.globalAlpha = .92 * fl; ctx.fillStyle = PAL.ink; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1; }
+  if (sh.hot >= .8 && snareHit(t, FPS)) { ctx.globalCompositeOperation = 'screen'; ctx.globalAlpha = .22; ctx.fillStyle = PAL.accent; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
+  return sh.id;
+}
+window.FILM = { frame, snap: () => cv.toDataURL('image/png'), shots: () => SHOTS.map(s => ({ id: s.id, type: s.type, t0: s.t0, t1: s.t1 })), errors: () => ERR };
+frame(+(q.get('t') || 0)); window.READY = true;
+</script></body></html>

@@ -1,0 +1,92 @@
+{
+  "title": "片名",
+  "palette": "ember",
+  "lyricFont": "sans",
+  "accents": [],
+  "logWords": [
+    "build",
+    "ship",
+    "loop",
+    "merge",
+    "test"
+  ],
+  "hud": {
+    "prompt": "~/project $",
+    "bl": "ONLINE: 1"
+  },
+  "converge": false,
+  "assets": {
+    "hero": {
+      "sheet": "assets/frames/hero_action.png"
+    },
+    "crew": {
+      "sheet": "assets/frames/crew_action.png"
+    }
+  },
+  "shots": [
+    {
+      "id": "title",
+      "type": "title",
+      "t0": 0,
+      "t1": "bar:4",
+      "subtitle": "SUBTITLE"
+    },
+    {
+      "id": "verse_hero",
+      "type": "figure",
+      "t0": "bar:4",
+      "t1": "bar:12",
+      "asset": "hero",
+      "frames": "beat",
+      "lyric": "right",
+      "sec": "VERSE"
+    },
+    {
+      "id": "chorus_hero",
+      "type": "figure",
+      "t0": "bar:12",
+      "t1": "bar:16",
+      "asset": "hero",
+      "frames": "eighth",
+      "lyric": "top",
+      "hot": 0.9,
+      "sec": "CHORUS"
+    },
+    {
+      "id": "chorus_crew",
+      "type": "montage",
+      "t0": "bar:16",
+      "t1": "bar:20",
+      "items": [
+        [
+          "hero",
+          0
+        ],
+        [
+          "crew",
+          1
+        ],
+        [
+          "hero",
+          2
+        ],
+        [
+          "crew",
+          3
+        ]
+      ],
+      "sec": "CHORUS"
+    },
+    {
+      "id": "end",
+      "type": "code",
+      "t0": "bar:20",
+      "t1": "end",
+      "lines": [
+        "// 片名",
+        "// 一句话"
+      ],
+      "hot": 0
+    }
+  ]
+}

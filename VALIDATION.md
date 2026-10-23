@@ -1,49 +1,57 @@
 # 验证 / Validation
 
-首版在 macOS 上验证。以下检查使用合成数据，不需要原始歌曲或生图 API。
+## 安装与运行
 
-## 可复现检查
+安装 CLI 需要 Node.js 22.20+：
 
-在 skill 根目录运行：
+```bash
+npx skills add https://github.com/DocJlm/claude-video-skills --skill ascii-character-mv
+```
+
+按提示选择目标 agent，默认安装到当前项目。安装只放置 skill 与配套资源；
+首次制作由 agent 定位已安装的 skill 根目录，运行 `bash tools/doctor.sh`。
+该脚本检查系统工具、按锁文件安装局部 npm 依赖，并准备 Chromium 用户缓存。
+
+## 可复现渲染检查
+
+在已安装的 skill 根目录运行：
 
 ```bash
 bash tools/doctor.sh
 python3 tools/smoke_test.py
 ```
 
-`smoke_test.py` 在系统临时目录建立六秒测试项目，生成片名、3D 隧道、
-文字粒子汇聚与片尾；进行分镜校验，并以 12 fps 渲染 640×360 和 360×640
-视频及关键帧。通过 ffprobe 检查尺寸、时长及每个视频的 72 帧。
-输出保留在终端打印的目录中，不进入仓库。
+测试使用合成项目与程序绘制的四格人物测试图，不需要歌曲、ASR 模型或生图 API。
+输出保留在系统临时目录，脚本打印具体位置。
 
-同时验证固定速度与非均匀拍点的语义时间，防止校验与实际渲染时间不一致。
+- **纯人物项目**：片名、四格人物动作、人物蒙太奇、终端片尾；不包含粒子镜头。
+- **可选粒子项目**：片名、隧道、文字汇聚、片尾；确认已有粒子能力仍可使用。
+- 两类项目均渲染 640×360 与 360×640 的六秒短片，每段 12 fps、72 帧，并输出关键帧。
+- 验证 `converge` 省略或为 `false` 时无粒子警告；显式为 `true` 却没有汇聚镜头时发出提醒。
+- 验证固定拍点和非均匀拍点的语义时间换算。
 
-## v0.1.0 发布验证
+## v0.2.0 发布检查
 
-- `SKILL.md` 名称与 YAML 入口通过 skill 校验器。
-- 环境检查从无 `node_modules` 的副本按锁文件安装成功。
-- 独立 skill ZIP 不包含依赖目录、系统文件、原始歌曲或完整成片。
-- ZIP 解压后独立安装与横竖版测试渲染通过。
-- 中英文 README 的本地链接、图片引用和许可证引用均可解析。
-- 《成为谁》展示素材从字符星火版成片提取，六张截图与 20 秒预览已检查；预览为 H.264 + AAC / 1280×720。
+- CLI 能识别唯一的 `ascii-character-mv`，安装后引擎、工具、模板、字体及其许可证完整。
+- 在隔离项目实际安装后运行上述依赖准备和两类横竖版渲染。
+- 中英文页面的安装命令、资源与文档链接有效。
+- 《成为谁》人物封面、六张截图与重剪约 20 秒预览可展示；预览为 1280×720 H.264/AAC，人物镜头为主。
+- 当前版本移除《不系舟》及旧安装标识；历史 v0.1.0 保留，不改写发布历史。
+- 原创内容使用标准 MIT；第三方字体保留各自的 SIL OFL 和作者声明。
 
 ## 验证边界
 
-上述检查覆盖安装、分镜解析及渲染，不代表从歌曲分析、生图到完整 MV 的
-全过程都重新运行过。Whisper 转录、歌曲对齐、生图服务，以及每一种镜头类型，
-仍需结合使用者提供的素材和客户端验证。当前不声明 Windows 或 Linux 支持。
+检查覆盖 skill 安装、资源完整性、环境准备、分镜解析及渲染，未重新运行整首歌的
+Whisper 转录、歌词对齐、人物生图和完整 MV 制作。当前运行环境仍为 macOS，
+不声明所有系统、客户端、模型组合或每一种镜头类型都已验证。
 
 ## English
 
-Validated on macOS. Run `bash tools/doctor.sh`, then
-`python3 tools/smoke_test.py` inside the skill. The smoke test creates a synthetic
-six-second project in a temporary directory, checks semantic timing and the
-storyboard, and renders landscape and portrait clips plus keyframes. ffprobe
-verifies dimensions, duration, and 72 frames per clip at 12 fps.
-
-Release checks include clean dependency installation, standalone ZIP extraction
-and rendering, local Markdown/media links, and the original-film showcase.
-The preview is 20 seconds, 1280×720, H.264/AAC. This validates installation,
-storyboard parsing, and rendering; it does not claim a fresh full-song ASR,
-image-generation, or end-to-end MV production run. Other operating systems,
-client/model combinations, and every individual shot type are not certified.
+Install with the command above (Node.js 22.20+), select an agent, and let the agent
+prepare local dependencies on first use. Run the smoke test inside the installed
+skill to verify a particle-free character film and a separate optional-particle
+film. Both render six-second landscape/portrait clips (72 frames at 12 fps),
+with semantic timing and opt-in convergence checks. Fixtures are generated locally;
+no song, ASR model, or image API is required. The first-use runtime is macOS,
+Node.js 20+, ffmpeg, uv, and python3. Full-song analysis and image generation are
+outside this validation. The historical v0.1.0 release remains available.
