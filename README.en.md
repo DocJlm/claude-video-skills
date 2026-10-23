@@ -27,7 +27,7 @@ Recommend an available style and explain why. Wait for my confirmation before pr
 Ask one question at a time if you need more information.
 ```
 
-You can also specify: “Use the ASCII Character MV style. Song: <path>; lyrics: <path>.”
+You can also specify: “Use the ASCII Character MV style. Song: `<path>`; lyrics: `<path>`.”
 
 If no released style fits, the agent explains the gap and discusses adapting the request or a custom direction. Unimplemented capabilities are not presented as supported features.
 

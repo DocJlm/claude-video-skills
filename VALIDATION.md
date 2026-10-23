@@ -49,7 +49,7 @@ python3 tools/smoke_test.py
 
 ## v0.3.0 本次验证记录
 
-- CLI 本地干净分发包发现并安装唯一 `claude-video-skills`，分别安装到 Claude Code 与 Codex 的隔离项目目录；62 个分发文件逐字节校验。发布后另以 GitHub URL 重验安装。
+- CLI 本地干净分发包发现并安装唯一 `claude-video-skills`，分别安装到 Claude Code 与 Codex 的隔离项目目录；62 个分发文件逐字节校验。已以 GitHub URL 重验安装，两种 agent 的 62 个文件均与仓库逐字节一致。
 - 从安装后的 `styles/ascii-character-mv/` 完成 `doctor.sh`（按锁文件 npm ci 与 Chromium 准备）及完整 smoke test；纯人物、可选粒子各两种构图，共四段六秒短片，每段 72 帧。
 - 入口 frontmatter 校验通过，中英文页面各六张截图，无重复顶部大图；40 个本地文档与图片链接检查通过。
 - 对模糊需求、明确指定、否决推荐、无合适风格逐项进行指令走查；未将这些静态走查当作独立模型行为实测。未开展跨模型自动访谈评测。
